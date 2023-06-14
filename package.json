@@ -43,5 +43,8 @@
       "last 1 safari version"
     ]
   },
+  "engines": {
+    "node": ">=14"
+  },
   "proxy": "https://mappin-backend-llv9.onrender.com/api"
 }
