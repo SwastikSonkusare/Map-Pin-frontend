@@ -10,6 +10,7 @@ import Login from "./components/Login/Login";
 
 import { toast } from "react-toastify";
 import "mapbox-gl/dist/mapbox-gl.css";
+import Loader from "./components/Loader/Loader";
 
 const App = () => {
   const notify = () => toast("Added a new pin!");
@@ -33,6 +34,7 @@ const App = () => {
   const [currentPlaceId, setCurrentPlaceId] = useState(null);
   const [newPlace, setNewPlace] = useState(null);
   const [showPopup, setShowPopup] = useState("");
+  const [loading, setLoading] = useState(false);
   const [showAuthPopUp, setShowAuthPop] = useState({
     login: false,
     register: false,
@@ -63,6 +65,8 @@ const App = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setLoading(true);
+
     const newPin = {
       username: currentUser,
       title: formData.title,
@@ -84,8 +88,10 @@ const App = () => {
       setFormData(initialState);
       setShowPopup(false);
       notify();
+      setLoading(false);
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
@@ -223,7 +229,7 @@ const App = () => {
                 type="submit"
                 onClick={handleSubmit}
               >
-                Add Pin
+                {loading ? <Loader /> : "Add Pin"}
               </button>
             </form>
           </Popup>

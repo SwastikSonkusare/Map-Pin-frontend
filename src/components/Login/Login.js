@@ -24,6 +24,11 @@ const Login = ({ setShowAuthPop, showAuthPopUp, setCurrentUser }) => {
 
   const notify = () => toast("You are successfully signed in!");
 
+  const handleChange = () => {
+    setFormValidate({ ...formValidate, email: "", password: "" });
+    setFailure("");
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -65,6 +70,7 @@ const Login = ({ setShowAuthPop, showAuthPopUp, setCurrentUser }) => {
       setShowAuthPop({ ...showAuthPopUp, login: false, register: false });
     } catch (error) {
       setFailure(error.response.data.message);
+      setLoading(false);
     }
   };
 
@@ -76,7 +82,13 @@ const Login = ({ setShowAuthPop, showAuthPopUp, setCurrentUser }) => {
       </div>
       <form onSubmit={handleSubmit}>
         <div className="login-input">
-          <input name="email" type="text" placeholder="email" ref={emailRef} />
+          <input
+            name="email"
+            type="text"
+            placeholder="email"
+            ref={emailRef}
+            onChange={handleChange}
+          />
           {formValidate.email.length ? <div>{formValidate.email}</div> : ""}
         </div>
         <div className="login-input">
@@ -85,6 +97,7 @@ const Login = ({ setShowAuthPop, showAuthPopUp, setCurrentUser }) => {
             type="password"
             placeholder="password"
             ref={passwordRef}
+            onChange={handleChange}
           />
           {formValidate.password.length ? (
             <div>{formValidate.password}</div>

@@ -24,6 +24,10 @@ const Register = ({ setShowAuthPop, showAuthPopUp }) => {
   const emailRef = useRef();
   const passwordRef = useRef();
 
+  const handleChange = () => {
+    setFormValidate({ ...formValidate, username: "", email: "", password: "" });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -67,6 +71,7 @@ const Register = ({ setShowAuthPop, showAuthPopUp }) => {
       setSuccess(true);
     } catch (error) {
       setFailure(error.response.data.message);
+      setLoading(false);
     }
   };
 
@@ -83,6 +88,7 @@ const Register = ({ setShowAuthPop, showAuthPopUp }) => {
             type="text"
             placeholder="username"
             ref={usernameRef}
+            onChange={handleChange}
           />
           {formValidate.username.length ? (
             <div>{formValidate.username}</div>
@@ -91,7 +97,13 @@ const Register = ({ setShowAuthPop, showAuthPopUp }) => {
           )}
         </div>
         <div className="login-input">
-          <input name="email" type="text" placeholder="email" ref={emailRef} />
+          <input
+            name="email"
+            type="text"
+            placeholder="email"
+            ref={emailRef}
+            onChange={handleChange}
+          />
           {formValidate.email.length ? <div>{formValidate.email}</div> : ""}
         </div>
         <div className="login-input">
@@ -100,6 +112,7 @@ const Register = ({ setShowAuthPop, showAuthPopUp }) => {
             type="password"
             placeholder="password"
             ref={passwordRef}
+            onChange={handleChange}
           />
           {formValidate.password.length ? (
             <div>{formValidate.password}</div>
