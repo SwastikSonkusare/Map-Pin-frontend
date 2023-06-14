@@ -1,10 +1,13 @@
 import { useRef, useState } from "react";
-import { CancelOutlined, RoomRounded } from "@material-ui/icons";
-import "./login.css";
 import axios from "axios";
+
+import Loader from "../Loader/Loader";
 import { validateEmail } from "../../utils";
 
+import { CancelOutlined, RoomRounded } from "@material-ui/icons";
 import { toast } from "react-toastify";
+
+import "./login.css";
 
 const Login = ({ setShowAuthPop, showAuthPopUp, setCurrentUser }) => {
   const initialState = {
@@ -14,6 +17,8 @@ const Login = ({ setShowAuthPop, showAuthPopUp, setCurrentUser }) => {
 
   const [formValidate, setFormValidate] = useState(initialState);
   const [failure, setFailure] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const emailRef = useRef();
   const passwordRef = useRef();
 
@@ -22,8 +27,12 @@ const Login = ({ setShowAuthPop, showAuthPopUp, setCurrentUser }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setLoading(true);
+
     if (!validateEmail(emailRef.current.value)) {
       setFormValidate({ ...formValidate, email: "Invalid email" });
+      setLoading(false);
+
       return "";
     }
 
@@ -32,6 +41,7 @@ const Login = ({ setShowAuthPop, showAuthPopUp, setCurrentUser }) => {
         ...formValidate,
         password: "Password should be greater than 6 characters",
       });
+      setLoading(false);
       return "";
     }
 
@@ -43,10 +53,14 @@ const Login = ({ setShowAuthPop, showAuthPopUp, setCurrentUser }) => {
     try {
       const {
         data: { result },
-      } = await axios.post("/users/login", user);
+      } = await axios.post(
+        "https://mappin-backend-k3ff.onrender.com/api/users/login",
+        user
+      );
       window.localStorage.setItem("Username", result.username);
       setCurrentUser(result.username);
       setFailure(false);
+      setLoading(false);
       notify();
       setShowAuthPop({ ...showAuthPopUp, login: false, register: false });
     } catch (error) {
@@ -78,7 +92,7 @@ const Login = ({ setShowAuthPop, showAuthPopUp, setCurrentUser }) => {
             ""
           )}
         </div>
-        <button className="authBtn">Login</button>
+        <button className="authBtn">{loading ? <Loader /> : "Login"}</button>
 
         {failure.length ? <span className="failure">{failure}</span> : ""}
       </form>

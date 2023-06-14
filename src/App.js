@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 import Map, { Marker, Popup } from "react-map-gl";
 import { Room, Star } from "@material-ui/icons";
 import { format } from "timeago.js";
-import axios from "axios";
 
 import Register from "./components/Register/Register";
 import Login from "./components/Login/Login";
@@ -13,8 +13,6 @@ import "mapbox-gl/dist/mapbox-gl.css";
 
 const App = () => {
   const notify = () => toast("Added a new pin!");
-
-  const [currentUser, setCurrentUser] = useState("");
 
   const initialState = {
     title: "",
@@ -29,6 +27,8 @@ const App = () => {
     width: "100vw",
     height: "100vh",
   });
+
+  const [currentUser, setCurrentUser] = useState("");
   const [pins, setPins] = useState([]);
   const [currentPlaceId, setCurrentPlaceId] = useState(null);
   const [newPlace, setNewPlace] = useState(null);
@@ -37,7 +37,6 @@ const App = () => {
     login: false,
     register: false,
   });
-
   const [formData, setFormData] = useState(initialState);
 
   const handleMarkerClick = (id, lat, long) => {
@@ -76,7 +75,10 @@ const App = () => {
     try {
       const {
         data: { result },
-      } = await axios.post("/pins", newPin);
+      } = await axios.post(
+        "https://mappin-backend-k3ff.onrender.com/api/pins",
+        newPin
+      );
       setPins([...pins, result]);
       setNewPlace(null);
       setFormData(initialState);
@@ -90,6 +92,7 @@ const App = () => {
   const handleLogout = () => {
     window.localStorage.removeItem("Username");
     setCurrentUser(null);
+    toast("You are logged out succesfully!");
   };
 
   useEffect(() => {
@@ -101,7 +104,9 @@ const App = () => {
       try {
         const {
           data: { result },
-        } = await axios.get("/pins");
+        } = await axios.get(
+          "https://mappin-backend-k3ff.onrender.com/api/pins"
+        );
 
         setPins(result);
       } catch (error) {

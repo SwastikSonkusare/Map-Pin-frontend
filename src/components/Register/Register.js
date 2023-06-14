@@ -1,13 +1,17 @@
 import { useRef, useState } from "react";
-import { CancelOutlined, RoomRounded } from "@material-ui/icons";
 import axios from "axios";
 
-import "./register.css";
+import Loader from "../Loader/Loader";
 import { validateEmail } from "../../utils";
 
+import { CancelOutlined, RoomRounded } from "@material-ui/icons";
+
+import "./register.css";
+
 const Register = ({ setShowAuthPop, showAuthPopUp }) => {
-  const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [failure, setFailure] = useState("");
+  const [success, setSuccess] = useState(false);
   const initialState = {
     username: "",
     email: "",
@@ -23,13 +27,18 @@ const Register = ({ setShowAuthPop, showAuthPopUp }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setLoading(true);
+    setSuccess(false);
+
     if (!usernameRef.current.value) {
       setFormValidate({ ...formValidate, username: "Please enter a username" });
+      setLoading(false);
       return "";
     }
 
     if (!validateEmail(emailRef.current.value)) {
       setFormValidate({ ...formValidate, email: "Invalid email" });
+      setLoading(false);
       return "";
     }
 
@@ -38,6 +47,7 @@ const Register = ({ setShowAuthPop, showAuthPopUp }) => {
         ...formValidate,
         password: "Password should be greater than 6 characters",
       });
+      setLoading(false);
       return "";
     }
 
@@ -48,8 +58,12 @@ const Register = ({ setShowAuthPop, showAuthPopUp }) => {
     };
 
     try {
-      await axios.post("/users/register", newUser);
+      await axios.post(
+        "https://mappin-backend-k3ff.onrender.com/api/users/register",
+        newUser
+      );
       setFailure(false);
+      setLoading(false);
       setSuccess(true);
     } catch (error) {
       setFailure(error.response.data.message);
@@ -93,7 +107,9 @@ const Register = ({ setShowAuthPop, showAuthPopUp }) => {
             ""
           )}
         </div>
-        <button className="authBtn register">Register</button>
+        <button className="authBtn register">
+          {loading ? <Loader /> : "Register"}
+        </button>
         {success && (
           <span className="success">Successfull. You can login now!</span>
         )}
