@@ -69,6 +69,9 @@ const Register = ({ setShowAuthPop, showAuthPopUp }) => {
       setFailure(false);
       setLoading(false);
       setSuccess(true);
+      usernameRef.current.value = "";
+      emailRef.current.value = "";
+      passwordRef.current.value = "";
     } catch (error) {
       setFailure(error.response.data.message);
       setLoading(false);
