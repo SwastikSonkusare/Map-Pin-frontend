@@ -1,0 +1,32 @@
+.authBtn {
+    color: white;
+    background-color: slateblue;
+    border: none;
+    border-radius: 5px;
+    padding: .7rem;
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+
+.register {
+    background-color: slateblue;
+}
+
+.success {
+    color: green;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.failure {
+    color: red;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.registerCancel {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    cursor: pointer;
+}

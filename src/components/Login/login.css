@@ -1,0 +1,66 @@
+.loginContainer {
+    max-width: 350px;
+    height: 380px;
+    padding: 2rem;
+    border-radius: 2rem;
+    background-color: #fff;
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+.loginContainer form {
+    justify-content: space-evenly;
+}
+
+.logo {
+    color: teal;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    gap: .5rem;
+    font-weight: bold;
+}
+
+.login-input {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.login-input  input {
+    width: 100%;
+}
+
+.login-input > div {
+    font-size: 1.3rem;
+    color: tomato;
+    font-weight: bold;
+}
+
+.authBtn {
+    color: white;
+    background-color: teal;
+    border: none;
+    border-radius: 5px;
+    padding: .7rem;
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+
+
+
+.failure {
+    color: red;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.loginCancel {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    cursor: pointer;
+}
